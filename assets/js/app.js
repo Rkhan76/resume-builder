@@ -24,21 +24,30 @@ let firstnameElem = mainForm.firstname,
     addressElem = mainForm.address,
     emailElem = mainForm.email,
     phonenoElem = mainForm.phoneno,
-    summaryElem = mainForm.summary;
+    summaryElem = mainForm.summary,
+    stateElem = mainForm.state,
+    countryElem = mainForm.country,
+    zipCodeElem = mainForm.zipCode;
+
+    //changes
+    
 
 // display elements
 let nameDsp = document.getElementById('fullname_dsp'),
-    imageDsp = document.getElementById('image_dsp'),
-    phonenoDsp = document.getElementById('phoneno_dsp'),
-    emailDsp = document.getElementById('email_dsp'),
-    addressDsp = document.getElementById('address_dsp'),
-    designationDsp = document.getElementById('designation_dsp'),
-    summaryDsp = document.getElementById('summary_dsp'),
-    projectsDsp = document.getElementById('projects_dsp'),
-    achievementsDsp = document.getElementById('achievements_dsp'),
-    skillsDsp = document.getElementById('skills_dsp'),
-    educationsDsp = document.getElementById('educations_dsp'),
-    experiencesDsp = document.getElementById('experiences_dsp');
+  imageDsp = document.getElementById('image_dsp'),
+  phonenoDsp = document.getElementById('phoneno_dsp'),
+  emailDsp = document.getElementById('email_dsp'),
+  addressDsp = document.getElementById('address_dsp'),
+  designationDsp = document.getElementById('designation_dsp'),
+  summaryDsp = document.getElementById('summary_dsp'),
+  projectsDsp = document.getElementById('projects_dsp'),
+  achievementsDsp = document.getElementById('achievements_dsp'),
+  skillsDsp = document.getElementById('skills_dsp'),
+  educationsDsp = document.getElementById('educations_dsp'),
+  experiencesDsp = document.getElementById('experiences_dsp'),
+  stateDsp = document.getElementById('state_dsp')
+  countryDsp = document.getElementById('country_dsp')
+  zipCodeDsp = document.getElementById('zipCode_dsp');
 
 // first value is for the attributes and second one passes the nodelists
 const fetchValues = (attrs, ...nodeLists) => {
@@ -97,6 +106,21 @@ const getUserInputs = () => {
     addressElem.addEventListener('keyup', (e) => validateFormData(e.target, validType.ANY, 'Address'));
     designationElem.addEventListener('keyup', (e) => validateFormData(e.target, validType.TEXT, 'Designation'));
 
+    zipCodeElem.addEventListener('keyup',(e)=>{ 
+        if(e.target.value.length !== 6) addErrMsg(e.target, 'zipCode')
+        else removeErrMsg(e.target)   
+    })
+
+    stateElem.addEventListener('onchange',(e)=>{
+        if (e.target.value == 'Select a state') addErrMsg(e.target, 'state')
+        else removeErrMsg(e.target)   
+    })
+
+    countryElem.addEventListener('onchange', (e) => {
+      if (e.target.value == 'Select a country') addErrMsg(e.target, 'country')
+      else removeErrMsg(e.target)
+    })
+
     achievementsTitleElem.forEach(item => item.addEventListener('keyup', (e) => validateFormData(e.target, validType.ANY, 'Title')));
     achievementsDescriptionElem.forEach(item => item.addEventListener('keyup', (e) => validateFormData(e.target, validType.ANY, 'Description')));
     expTitleElem.forEach(item => item.addEventListener('keyup', (e) => validateFormData(e.target, validType.ANY, 'Title')));
@@ -125,6 +149,9 @@ const getUserInputs = () => {
         email: emailElem.value,
         phoneno: phonenoElem.value,
         summary: summaryElem.value,
+        state: stateElem.value,
+        country: countryElem.value,
+        zipCode: zipCodeElem.value,
         achievements: fetchValues(['achieve_title', 'achieve_description'], achievementsTitleElem, achievementsDescriptionElem),
         experiences: fetchValues(['exp_title', 'exp_organization', 'exp_location', 'exp_start_date', 'exp_end_date', 'exp_description'], expTitleElem, expOrganizationElem, expLocationElem, expStartDateElem, expEndDateElem, expDescriptionElem),
         educations: fetchValues(['edu_school', 'edu_degree', 'edu_city', 'edu_start_date', 'edu_graduation_date', 'edu_description'], eduSchoolElem, eduDegreeElem, eduCityElem, eduStartDateElem, eduGraduationDateElem, eduDescriptionElem),
@@ -200,6 +227,9 @@ const displayCV = (userData) => {
     addressDsp.innerHTML = userData.address;
     designationDsp.innerHTML = userData.designation;
     summaryDsp.innerHTML = userData.summary;
+    stateDsp.innerHTML = userData.state;
+    countryDsp.innerHTML = userData.country;
+    zipCodeDsp.innerHTML = userData.zipCode;
     showListData(userData.projects, projectsDsp);
     showListData(userData.achievements, achievementsDsp);
     showListData(userData.skills, skillsDsp);
